@@ -831,13 +831,13 @@ static void bio_free_pages(struct bio *bio){
 #define bitmap_mark(bitmap, pos) (bitmap)[(pos) / 8] |= (1 << ((pos) % 8))
 
 //name macros
-#define INFO_PROC_FILE "dattobd-info"
-#define DRIVER_NAME "dattobd"
-#define CONTROL_DEVICE_NAME "dattobd-ctl"
-#define SNAP_DEVICE_NAME "dattobd%d"
+#define INFO_PROC_FILE "datto-info"
+#define DRIVER_NAME "datto"
+#define CONTROL_DEVICE_NAME "datto-ctl"
+#define SNAP_DEVICE_NAME "datto%u"
 #define SNAP_COW_THREAD_NAME_FMT "datto_snap_cow%d"
 #define SNAP_MRF_THREAD_NAME_FMT "datto_snap_mrf%d"
-#define INC_THREAD_NAME_FMT "datto_snap_inc%d"
+#define INC_THREAD_NAME_FMT "datto_inc%d"
 
 //macro for iterating over snap_devices (requires a null check on dev)
 #define tracer_for_each(dev, i) for(i = ACCESS_ONCE(lowest_minor), dev = ACCESS_ONCE(snap_devices[i]); i <= ACCESS_ONCE(highest_minor); i++, dev = ACCESS_ONCE(snap_devices[i]))
