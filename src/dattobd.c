@@ -835,9 +835,9 @@ static void bio_free_pages(struct bio *bio){
 #define DRIVER_NAME "dattobd"
 #define CONTROL_DEVICE_NAME "dattobd-ctl"
 #define SNAP_DEVICE_NAME "dattobd%d"
-#define SNAP_COW_THREAD_NAME_FMT "elastio_snap_cow%d"
-#define SNAP_MRF_THREAD_NAME_FMT "elastio_snap_mrf%d"
-#define INC_THREAD_NAME_FMT "elastio_snap_inc%d"
+#define SNAP_COW_THREAD_NAME_FMT "datto_snap_cow%d"
+#define SNAP_MRF_THREAD_NAME_FMT "datto_snap_mrf%d"
+#define INC_THREAD_NAME_FMT "datto_snap_inc%d"
 
 //macro for iterating over snap_devices (requires a null check on dev)
 #define tracer_for_each(dev, i) for(i = ACCESS_ONCE(lowest_minor), dev = ACCESS_ONCE(snap_devices[i]); i <= ACCESS_ONCE(highest_minor); i++, dev = ACCESS_ONCE(snap_devices[i]))

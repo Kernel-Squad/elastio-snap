@@ -25,9 +25,9 @@ int elastio_snap_destroy(unsigned int minor);
 
 int elastio_snap_transition_incremental(unsigned int minor);
 
-int elastio_snap_transition_snapshot(unsigned int minor, char *cow, unsigned long fallocated_space);
+int dattobd_transition_snapshot(unsigned int minor, char *cow, unsigned long fallocated_space);
 
-int elastio_snap_reconfigure(unsigned int minor, unsigned long cache_size);
+int dattobd_reconfigure(unsigned int minor, unsigned long cache_size);
 
 int elastio_snap_info(unsigned int minor, struct elastio_snap_info *info);
 

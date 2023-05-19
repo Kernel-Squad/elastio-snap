@@ -12,7 +12,7 @@
 #include <sys/ioctl.h>
 #include "libdattobd.h"
 
-int elastio_snap_setup_snapshot(unsigned int minor, char *bdev, char *cow, unsigned long fallocated_space, unsigned long cache_size, bool ignore_snap_errors){
+int dattobd_setup_snapshot(unsigned int minor, char *bdev, char *cow, unsigned long fallocated_space, unsigned long cache_size, bool ignore_snap_errors){
 	int fd, ret;
 	struct setup_params sp;
 
@@ -32,7 +32,7 @@ int elastio_snap_setup_snapshot(unsigned int minor, char *bdev, char *cow, unsig
 	return ret;
 }
 
-int elastio_snap_reload_snapshot(unsigned int minor, char *bdev, char *cow, unsigned long cache_size, bool ignore_snap_errors){
+int dattobd_reload_snapshot(unsigned int minor, char *bdev, char *cow, unsigned long cache_size, bool ignore_snap_errors){
 	int fd, ret;
 	struct reload_params rp;
 
@@ -51,7 +51,7 @@ int elastio_snap_reload_snapshot(unsigned int minor, char *bdev, char *cow, unsi
 	return ret;
 }
 
-int elastio_snap_reload_incremental(unsigned int minor, char *bdev, char *cow, unsigned long cache_size, bool ignore_snap_errors){
+int dattobd_reload_incremental(unsigned int minor, char *bdev, char *cow, unsigned long cache_size, bool ignore_snap_errors){
 	int fd, ret;
 	struct reload_params rp;
 
@@ -70,7 +70,7 @@ int elastio_snap_reload_incremental(unsigned int minor, char *bdev, char *cow, u
 	return ret;
 }
 
-int elastio_snap_destroy(unsigned int minor){
+int dattobd_destroy(unsigned int minor){
 	int fd, ret;
 
 	fd = open("/dev/dattobd-ctl", O_RDONLY);
@@ -82,7 +82,7 @@ int elastio_snap_destroy(unsigned int minor){
 	return ret;
 }
 
-int elastio_snap_transition_incremental(unsigned int minor){
+int dattobd_transition_incremental(unsigned int minor){
 	int fd, ret;
 
 	fd = open("/dev/dattobd-ctl", O_RDONLY);
@@ -94,7 +94,7 @@ int elastio_snap_transition_incremental(unsigned int minor){
 	return ret;
 }
 
-int elastio_snap_transition_snapshot(unsigned int minor, char *cow, unsigned long fallocated_space){
+int dattobd_transition_snapshot(unsigned int minor, char *cow, unsigned long fallocated_space){
 	int fd, ret;
 	struct transition_snap_params tp;
 
@@ -111,7 +111,7 @@ int elastio_snap_transition_snapshot(unsigned int minor, char *cow, unsigned lon
 	return ret;
 }
 
-int elastio_snap_reconfigure(unsigned int minor, unsigned long cache_size){
+int dattobd_reconfigure(unsigned int minor, unsigned long cache_size){
 	int fd, ret;
 	struct reconfigure_params rp;
 

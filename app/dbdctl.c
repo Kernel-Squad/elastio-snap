@@ -139,7 +139,7 @@ static int handle_setup_snap(int argc, char **argv){
 	ret = parse_ui(argv[optind + 2], &minor);
 	if(ret) goto error;
 
-	return elastio_snap_setup_snapshot(minor, bdev, cow, fallocated_space, cache_size, ignore_snap_errors);
+	return dattobd_setup_snapshot(minor, bdev, cow, fallocated_space, cache_size, ignore_snap_errors);
 
 error:
 	perror("error interpreting setup snapshot parameters");
@@ -181,7 +181,7 @@ static int handle_reload_snap(int argc, char **argv){
 	ret = parse_ui(argv[optind + 2], &minor);
 	if(ret) goto error;
 
-	return elastio_snap_reload_snapshot(minor, bdev, cow, cache_size, ignore_snap_errors);
+	return dattobd_reload_snapshot(minor, bdev, cow, cache_size, ignore_snap_errors);
 
 error:
 	perror("error interpreting reload snapshot parameters");
@@ -223,7 +223,7 @@ static int handle_reload_inc(int argc, char **argv){
 	ret = parse_ui(argv[optind + 2], &minor);
 	if(ret) goto error;
 
-	return elastio_snap_reload_incremental(minor, bdev, cow, cache_size, ignore_snap_errors);
+	return dattobd_reload_incremental(minor, bdev, cow, cache_size, ignore_snap_errors);
 
 error:
 	perror("error interpreting reload incremental parameters");
@@ -243,7 +243,7 @@ static int handle_destroy(int argc, char **argv){
 	ret = parse_ui(argv[1], &minor);
 	if(ret) goto error;
 
-	return elastio_snap_destroy(minor);
+	return dattobd_destroy(minor);
 
 error:
 	perror("error interpreting destroy parameters");
@@ -263,7 +263,7 @@ static int handle_transition_inc(int argc, char **argv){
 	ret = parse_ui(argv[1], &minor);
 	if(ret) goto error;
 
-	return elastio_snap_transition_incremental(minor);
+	return dattobd_transition_incremental(minor);
 
 error:
 	perror("error interpreting transition to incremental parameters");
@@ -300,7 +300,7 @@ static int handle_transition_snap(int argc, char **argv){
 	ret = parse_ui(argv[optind + 1], &minor);
 	if(ret) goto error;
 
-	return elastio_snap_transition_snapshot(minor, cow, fallocated_space);
+	return dattobd_transition_snapshot(minor, cow, fallocated_space);
 
 error:
 	perror("error interpreting transition to snapshot parameters");
@@ -334,7 +334,7 @@ static int handle_reconfigure(int argc, char **argv){
 	ret = parse_ui(argv[optind], &minor);
 	if(ret) goto error;
 
-	return elastio_snap_reconfigure(minor, cache_size);
+	return dattobd_reconfigure(minor, cache_size);
 
 error:
 	perror("error interpreting reconfigure parameters");
