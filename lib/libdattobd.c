@@ -146,7 +146,7 @@ int dattobd_info(unsigned int minor, struct elastio_snap_info *info){
 	return ret;
 }
 
-int elastio_snap_get_free_minor(void){
+int dattobd_get_free_minor(void){
 	int fd, ret, minor;
 
 	fd = open("/dev/dattobd-ctl", O_RDONLY);

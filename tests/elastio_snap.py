@@ -48,7 +48,7 @@ int dattobd_transition_incremental(unsigned int minor);
 int dattobd_transition_snapshot(unsigned int minor, char *cow, unsigned long fallocated_space);
 int dattobd_reconfigure(unsigned int minor, unsigned long cache_size);
 int elastio_snap_info(unsigned int minor, struct elastio_snap_info *info);
-int elastio_snap_get_free_minor(void);
+int dattobd_get_free_minor(void);
 """)
 
 
@@ -186,7 +186,7 @@ def info(minor):
     }
 
 def get_free_minor():
-    ret = lib.elastio_snap_get_free_minor()
+    ret = lib.dattobd_get_free_minor()
     if (ret < 0):
         return -ffi.errno
     return ret

@@ -405,7 +405,7 @@ static int handle_get_free_minor(int argc){
 		goto error;
 	}
 
-	minor = elastio_snap_get_free_minor();
+	minor = dattobd_get_free_minor();
 	if(minor < 0) {
 		return minor;
 	}
