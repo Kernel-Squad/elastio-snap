@@ -427,7 +427,7 @@ int main(int argc, char **argv){
 	//check argc
 	if(argc < 2) print_help(-1);
 
-	if(access("/dev/dattobd-ctl", F_OK) != 0){
+	if(access("/dev/datto-ctl", F_OK) != 0){
 		errno = EINVAL;
 		perror("driver does not appear to be loaded");
 		return -1;
