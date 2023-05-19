@@ -86,7 +86,7 @@ if ! pip3 list 2>/dev/null | grep -q cffi ; then
 fi
 
 echo
-echo "elastio-snap: $(git rev-parse --short HEAD)"
+echo "dattobd: $(git rev-parse --short HEAD)"
 echo "kernel: $(uname -r)"
 echo "filesystem: $([ -n "$TEST_FS" ] && echo $TEST_FS || echo ext4 )"
 echo "gcc: $(gcc --version | awk 'NR==1 {print $3}')"

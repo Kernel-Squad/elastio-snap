@@ -35,7 +35,7 @@ class DeviceTestCaseMultipart(unittest.TestCase):
                 if not r in cls.minors: break
             cls.minors.append(r)
 
-        cls.kmod = kmod.Module("../src/elastio-snap.ko")
+        cls.kmod = kmod.Module("../src/dattobd.ko")
         cls.kmod.load(debug=1)
 
         if os.getenv('TEST_DEVICES'):

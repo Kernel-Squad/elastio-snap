@@ -10,13 +10,13 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <sys/ioctl.h>
-#include "libelastio-snap.h"
+#include "libdattobd.h"
 
 int elastio_snap_setup_snapshot(unsigned int minor, char *bdev, char *cow, unsigned long fallocated_space, unsigned long cache_size, bool ignore_snap_errors){
 	int fd, ret;
 	struct setup_params sp;
 
-	fd = open("/dev/elastio-snap-ctl", O_RDONLY);
+	fd = open("/dev/dattobd-ctl", O_RDONLY);
 	if(fd < 0) return -1;
 
 	sp.minor = minor;
@@ -36,7 +36,7 @@ int elastio_snap_reload_snapshot(unsigned int minor, char *bdev, char *cow, unsi
 	int fd, ret;
 	struct reload_params rp;
 
-	fd = open("/dev/elastio-snap-ctl", O_RDONLY);
+	fd = open("/dev/dattobd-ctl", O_RDONLY);
 	if(fd < 0) return -1;
 
 	rp.minor = minor;
@@ -55,7 +55,7 @@ int elastio_snap_reload_incremental(unsigned int minor, char *bdev, char *cow, u
 	int fd, ret;
 	struct reload_params rp;
 
-	fd = open("/dev/elastio-snap-ctl", O_RDONLY);
+	fd = open("/dev/dattobd-ctl", O_RDONLY);
 	if(fd < 0) return -1;
 
 	rp.minor = minor;
@@ -73,7 +73,7 @@ int elastio_snap_reload_incremental(unsigned int minor, char *bdev, char *cow, u
 int elastio_snap_destroy(unsigned int minor){
 	int fd, ret;
 
-	fd = open("/dev/elastio-snap-ctl", O_RDONLY);
+	fd = open("/dev/dattobd-ctl", O_RDONLY);
 	if(fd < 0) return -1;
 
 	ret = ioctl(fd, IOCTL_DESTROY, &minor);
@@ -85,7 +85,7 @@ int elastio_snap_destroy(unsigned int minor){
 int elastio_snap_transition_incremental(unsigned int minor){
 	int fd, ret;
 
-	fd = open("/dev/elastio-snap-ctl", O_RDONLY);
+	fd = open("/dev/dattobd-ctl", O_RDONLY);
 	if(fd < 0) return -1;
 
 	ret = ioctl(fd, IOCTL_TRANSITION_INC, &minor);
@@ -102,7 +102,7 @@ int elastio_snap_transition_snapshot(unsigned int minor, char *cow, unsigned lon
 	tp.cow = cow;
 	tp.fallocated_space = fallocated_space;
 
-	fd = open("/dev/elastio-snap-ctl", O_RDONLY);
+	fd = open("/dev/dattobd-ctl", O_RDONLY);
 	if(fd < 0) return -1;
 
 	ret = ioctl(fd, IOCTL_TRANSITION_SNAP, &tp);
@@ -115,7 +115,7 @@ int elastio_snap_reconfigure(unsigned int minor, unsigned long cache_size){
 	int fd, ret;
 	struct reconfigure_params rp;
 
-	fd = open("/dev/elastio-snap-ctl", O_RDONLY);
+	fd = open("/dev/dattobd-ctl", O_RDONLY);
 	if(fd < 0) return -1;
 
 	rp.minor = minor;
@@ -135,7 +135,7 @@ int elastio_snap_info(unsigned int minor, struct elastio_snap_info *info){
 		return -1;
 	}
 
-	fd = open("/dev/elastio-snap-ctl", O_RDONLY);
+	fd = open("/dev/dattobd-ctl", O_RDONLY);
 	if(fd < 0) return -1;
 
 	info->minor = minor;
@@ -149,7 +149,7 @@ int elastio_snap_info(unsigned int minor, struct elastio_snap_info *info){
 int elastio_snap_get_free_minor(void){
 	int fd, ret, minor;
 
-	fd = open("/dev/elastio-snap-ctl", O_RDONLY);
+	fd = open("/dev/dattobd-ctl", O_RDONLY);
 	if(fd < 0) return -1;
 
 	ret = ioctl(fd, IOCTL_GET_FREE, &minor);

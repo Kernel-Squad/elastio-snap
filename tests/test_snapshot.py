@@ -23,7 +23,7 @@ class TestSnapshot(DeviceTestCase):
         self.cow_full_path = "{}/{}".format(self.mount, self.cow_file)
 
         self.snap_mount = "/mnt"
-        self.snap_device = "/dev/elastio-snap{}".format(self.minor)
+        self.snap_device = "/dev/dattobd{}".format(self.minor)
 
         util.test_track(self._testMethodName, started=True)
 
@@ -59,7 +59,7 @@ class TestSnapshot(DeviceTestCase):
         util.dd("/dev/urandom", testfile, file_size_mb, bs="1M")
         os.sync()
 
-        # TODO: norecovery option, probably, should not be here after the fix of the elastio/elastio-snap#63
+        # TODO: norecovery option, probably, should not be here after the fix of the elastio/dattobd#63
         opts = "nouuid,norecovery,ro" if (self.fs == "xfs") else "ro"
         util.mount(self.snap_device, self.snap_mount, opts)
         self.addCleanup(util.unmount, self.snap_mount)

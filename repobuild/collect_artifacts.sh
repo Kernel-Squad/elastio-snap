@@ -26,10 +26,10 @@ SOURCE_BRANCH=`git rev-parse --abbrev-ref HEAD`
 COMMIT_SHA=`git rev-parse --short HEAD`
 
 mkdir -p $out/$dist_name
-cat > $out/$dist_name/elastio-snap.info << INFO
+cat > $out/$dist_name/dattobd.info << INFO
 Branch:     $SOURCE_BRANCH
 Rev:        $COMMIT_SHA
-Version:    `grep Version: $dir/../dist/elastio-snap.spec | awk '{print $NF}'`
+Version:    `grep Version: $dir/../dist/dattobd.spec | awk '{print $NF}'`
 Build:      $BUILD_NUMBER
 INFO
 }

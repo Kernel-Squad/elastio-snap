@@ -1,5 +1,5 @@
 # Binaries
-app/elioctl
+app/dbdctl
 utils/update-img
 
 # Dynamically generated files

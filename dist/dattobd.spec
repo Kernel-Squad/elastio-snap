@@ -87,7 +87,7 @@
 %endif
 
 # Set up library package names properly
-%global libprefix libelastio-snap
+%global libprefix libdattobd
 %global libsover 1
 
 %if "%{_vendor}" == "debbuild"
@@ -108,7 +108,7 @@
 %bcond_with devmode
 
 
-Name:            elastio-snap
+Name:            dattobd
 Version:         0.12.2
 Release:         1%{?dist}
 Summary:         Kernel module and utilities for enabling low-level live backups
@@ -127,7 +127,7 @@ License:         GPLv2
 %endif
 %endif
 
-URL:             https://github.com/elastio/elastio-snap
+URL:             https://github.com/elastio/dattobd
 %if ! %{with devmode}
 Source0:         %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 %else
@@ -142,7 +142,7 @@ BuildRequires:   rsync
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
 %description
-The Elastio-Snap is a kernel module that enables
+The dattobd is a kernel module that enables
 live image snapshots through block devices.
 
 %package -n %{libname}
@@ -228,7 +228,7 @@ BuildArch:       noarch
 
 # By default, on arm64, Debian 11 is provided with the kernel with
 # some symbols absent AND with without a System.map file. This makes
-# the elastio-snap driver work without sys_call_table hooking support.
+# the dattobd driver work without sys_call_table hooking support.
 #
 # As a compromise solution, we install linux-image-$(uname -r)-dbg
 # to make it work properly. This package adds System.map and makes
@@ -279,7 +279,7 @@ Requires:        make
 # statement for RHEL/CentOS and Fedora due to problem in DKMS.
 # It installs kernel-debug-devel instead of kernel-devel if no
 # kernel-devel package has been already installed. See more
-# here https://github.com/elastio/elastio-snap/issues/12 and
+# here https://github.com/elastio/dattobd/issues/12 and
 # here https://bugzilla.redhat.com/1228897
 # This change ensures installation of the kernel-devel, not
 # kernel-debug-devel if both dkms and kernel module are installed
@@ -317,18 +317,18 @@ make utils
 %install
 # Install library
 mkdir -p %{buildroot}%{_libdir}/pkgconfig
-install -p -m 0755 lib/libelastio-snap.so.%{libsover} %{buildroot}%{_libdir}/
-ln -sf libelastio-snap.so.%{libsover} %{buildroot}%{_libdir}/libelastio-snap.so
-install -p -m 0644 dist/libelastio-snap.pc.in %{buildroot}%{_libdir}/pkgconfig/libelastio-snap.pc
-mkdir -p %{buildroot}%{_includedir}/elastio-snap
-install -p -m 0644 lib/libelastio-snap.h %{buildroot}%{_includedir}/elastio-snap/libelastio-snap.h
-install -p -m 0644 src/elastio-snap.h %{buildroot}%{_includedir}/elastio-snap/elastio-snap.h
+install -p -m 0755 lib/libdattobd.so.%{libsover} %{buildroot}%{_libdir}/
+ln -sf libdattobd.so.%{libsover} %{buildroot}%{_libdir}/libdattobd.so
+install -p -m 0644 dist/libdattobd.pc.in %{buildroot}%{_libdir}/pkgconfig/libdattobd.pc
+mkdir -p %{buildroot}%{_includedir}/dattobd
+install -p -m 0644 lib/libdattobd.h %{buildroot}%{_includedir}/dattobd/libdattobd.h
+install -p -m 0644 src/dattobd.h %{buildroot}%{_includedir}/dattobd/dattobd.h
 
 sed -e "s:@prefix@:%{_prefix}:g" \
     -e "s:@libdir@:%{_libdir}:g" \
-    -e "s:@includedir@:%{_includedir}/elastio-snap:g" \
+    -e "s:@includedir@:%{_includedir}/dattobd:g" \
     -e "s:@PACKAGE_VERSION@:%{version}:g" \
-    -i %{buildroot}%{_libdir}/pkgconfig/libelastio-snap.pc
+    -i %{buildroot}%{_libdir}/pkgconfig/libdattobd.pc
 
 
 # Generate symbols for library package (Debian/Ubuntu only)
@@ -339,11 +339,11 @@ dpkg-gensymbols -P%{buildroot} -p%{libname} -v%{version}-%{release} -e%{buildroo
 
 # Install utilities and man pages
 mkdir -p %{buildroot}%{_bindir}
-install -p -m 0755 app/elioctl %{buildroot}%{_bindir}/elioctl
+install -p -m 0755 app/dbdctl %{buildroot}%{_bindir}/dbdctl
 mkdir -p %{buildroot}%{_sysconfdir}/bash_completion.d
-install -p -m 0755 app/bash_completion.d/elioctl %{buildroot}%{_sysconfdir}/bash_completion.d/
+install -p -m 0755 app/bash_completion.d/dbdctl %{buildroot}%{_sysconfdir}/bash_completion.d/
 mkdir -p %{buildroot}%{_mandir}/man8
-install -p -m 0644 doc/elioctl.8 %{buildroot}%{_mandir}/man8/elioctl.8
+install -p -m 0644 doc/dbdctl.8 %{buildroot}%{_mandir}/man8/dbdctl.8
 install -p -m 0755 utils/update-img %{buildroot}%{_bindir}/update-img
 install -p -m 0644 doc/update-img.8 %{buildroot}%{_mandir}/man8/update-img.8
 
@@ -352,24 +352,24 @@ mkdir -p %{buildroot}%{_kmod_src_root}
 rsync -av src/ %{buildroot}%{_kmod_src_root}
 
 # Install DKMS configuration
-install -m 0644 dist/elastio-snap-dkms-conf %{buildroot}%{_kmod_src_root}/dkms.conf
+install -m 0644 dist/dattobd-dkms-conf %{buildroot}%{_kmod_src_root}/dkms.conf
 sed -i "s/@MODULE_VERSION@/%{version}/g" %{buildroot}%{_kmod_src_root}/dkms.conf
 
 # Install modern modprobe stuff
 mkdir -p %{buildroot}%{_sysconfdir}/modules-load.d
-install -m 0644 dist/elastio-snap-modprobe-conf %{buildroot}%{_sysconfdir}/modules-load.d/%{name}.conf
+install -m 0644 dist/dattobd-modprobe-conf %{buildroot}%{_sysconfdir}/modules-load.d/%{name}.conf
 
 # Legacy automatic module loader for RHEL 5/6
 %if 0%{?rhel} && 0%{?rhel} < 7
 mkdir -p %{buildroot}%{_sysconfdir}/sysconfig/modules
-install -m 0755 dist/elastio-snap-sysconfig-modules %{buildroot}%{_sysconfdir}/sysconfig/modules/elastio-snap.modules
+install -m 0755 dist/dattobd-sysconfig-modules %{buildroot}%{_sysconfdir}/sysconfig/modules/dattobd.modules
 %endif
 
 # We only need the hook with older distros
 %if 0%{?rhel} == 5 || (0%{?suse_version} && 0%{?suse_version} < 1315) || (0%{?fedora} && 0%{?fedora} < 23)
-# Install the kernel hook to enforce elastio-snap rebuilds
+# Install the kernel hook to enforce dattobd rebuilds
 mkdir -p %{buildroot}%{_sysconfdir}/kernel/postinst.d
-install -m 755 dist/kernel.postinst.d/50-elastio-snap %{buildroot}%{_sysconfdir}/kernel/postinst.d/50-elastio-snap
+install -m 755 dist/kernel.postinst.d/50-dattobd %{buildroot}%{_sysconfdir}/kernel/postinst.d/50-dattobd
 %endif
 
 # RHEL/CentOS 5 will not have the initramfs scripts because its mkinitrd doesn't support scripts
@@ -384,19 +384,19 @@ install -m 755 dist/initramfs/reload %{buildroot}%{_sharedstatedir}/elastio/dla/
 mkdir -p %{buildroot}%{_initramfs_tools_root}
 mkdir -p %{buildroot}%{_initramfs_tools_root}/hooks
 mkdir -p %{buildroot}%{_initramfs_tools_root}/scripts/init-premount
-install -m 755 dist/initramfs/initramfs-tools/hooks/elastio-snap %{buildroot}%{_initramfs_tools_root}/hooks/elastio-snap
-install -m 755 dist/initramfs/initramfs-tools/scripts/elastio-snap %{buildroot}%{_initramfs_tools_root}/scripts/init-premount/elastio-snap
+install -m 755 dist/initramfs/initramfs-tools/hooks/dattobd %{buildroot}%{_initramfs_tools_root}/hooks/dattobd
+install -m 755 dist/initramfs/initramfs-tools/scripts/dattobd %{buildroot}%{_initramfs_tools_root}/scripts/init-premount/dattobd
 %else
 # openSUSE 13.1 and older use mkinitrd
 %if 0%{?suse_version} > 0 && 0%{?suse_version} < 1315
 mkdir -p %{buildroot}%{_mkinitrd_scripts_root}
-install -m 755 dist/initramfs/initrd/boot-elastio-snap.sh %{buildroot}%{_mkinitrd_scripts_root}/boot-elastio-snap.sh
-install -m 755 dist/initramfs/initrd/setup-elastio-snap.sh %{buildroot}%{_mkinitrd_scripts_root}/setup-elastio-snap.sh
+install -m 755 dist/initramfs/initrd/boot-dattobd.sh %{buildroot}%{_mkinitrd_scripts_root}/boot-dattobd.sh
+install -m 755 dist/initramfs/initrd/setup-dattobd.sh %{buildroot}%{_mkinitrd_scripts_root}/setup-dattobd.sh
 %else
-mkdir -p %{buildroot}%{_dracut_modules_root}/90elastio-snap
-install -m 755 dist/initramfs/dracut/elastio-snap.sh %{buildroot}%{_dracut_modules_root}/90elastio-snap/elastio-snap.sh
-install -m 755 dist/initramfs/dracut/module-setup.sh %{buildroot}%{_dracut_modules_root}/90elastio-snap/module-setup.sh
-install -m 755 dist/initramfs/dracut/install %{buildroot}%{_dracut_modules_root}/90elastio-snap/install
+mkdir -p %{buildroot}%{_dracut_modules_root}/90dattobd
+install -m 755 dist/initramfs/dracut/dattobd.sh %{buildroot}%{_dracut_modules_root}/90dattobd/dattobd.sh
+install -m 755 dist/initramfs/dracut/module-setup.sh %{buildroot}%{_dracut_modules_root}/90dattobd/module-setup.sh
+install -m 755 dist/initramfs/dracut/install %{buildroot}%{_dracut_modules_root}/90dattobd/install
 %endif
 %endif
 %endif
@@ -497,27 +497,27 @@ rm -rf %{buildroot}
 %if 0%{?suse_version}
 %defattr(-,root,root,-)
 %endif
-%{_bindir}/elioctl
+%{_bindir}/dbdctl
 %{_bindir}/update-img
-%{_sysconfdir}/bash_completion.d/elioctl
-%{_mandir}/man8/elioctl.8*
+%{_sysconfdir}/bash_completion.d/dbdctl
+%{_mandir}/man8/dbdctl.8*
 %{_mandir}/man8/update-img.8*
 # Initramfs scripts for all but RHEL 5
 %if 0%{?rhel} != 5
 %dir %{_sharedstatedir}/elastio/dla
 %{_sharedstatedir}/elastio/dla/reload
 %if 0%{?debian} || 0%{?ubuntu}
-%{_initramfs_tools_root}/hooks/elastio-snap
-%{_initramfs_tools_root}/scripts/init-premount/elastio-snap
+%{_initramfs_tools_root}/hooks/dattobd
+%{_initramfs_tools_root}/scripts/init-premount/dattobd
 %else
 %if 0%{?suse_version} > 0 && 0%{?suse_version} < 1315
-%{_mkinitrd_scripts_root}/boot-elastio-snap.sh
-%{_mkinitrd_scripts_root}/setup-elastio-snap.sh
+%{_mkinitrd_scripts_root}/boot-dattobd.sh
+%{_mkinitrd_scripts_root}/setup-dattobd.sh
 %else
-%dir %{_dracut_modules_root}/90elastio-snap
-%{_dracut_modules_root}/90elastio-snap/elastio-snap.sh
-%{_dracut_modules_root}/90elastio-snap/module-setup.sh
-%{_dracut_modules_root}/90elastio-snap/install
+%dir %{_dracut_modules_root}/90dattobd
+%{_dracut_modules_root}/90dattobd/dattobd.sh
+%{_dracut_modules_root}/90dattobd/module-setup.sh
+%{_dracut_modules_root}/90dattobd/install
 %endif
 %endif
 %endif
@@ -540,7 +540,7 @@ rm -rf %{buildroot}
 %if 0%{?suse_version}
 %defattr(-,root,root,-)
 %endif
-%{_libdir}/libelastio-snap.so.%{libsover}
+%{_libdir}/libdattobd.so.%{libsover}
 %if "%{_vendor}" == "redhat"
 %{!?_licensedir:%global license %doc}
 %license COPYING* LICENSING.md
@@ -556,9 +556,9 @@ rm -rf %{buildroot}
 %if 0%{?suse_version}
 %defattr(-,root,root,-)
 %endif
-%{_libdir}/libelastio-snap.so
-%{_libdir}/pkgconfig/libelastio-snap.pc
-%{_includedir}/elastio-snap/
+%{_libdir}/libdattobd.so
+%{_libdir}/pkgconfig/libdattobd.pc
+%{_includedir}/dattobd/
 %if "%{_vendor}" == "redhat"
 %{!?_licensedir:%global license %doc}
 %license COPYING* LICENSING.md
@@ -576,24 +576,24 @@ rm -rf %{buildroot}
 %endif
 %if 0%{?rhel} == 5 && 0%{?rhel} == 6 && 0%{?suse_version} == 1110
 # RHEL/CentOS 5/6 and SLE 11 don't support this at all
-%exclude %{_sysconfdir}/modules-load.d/elastio-snap.conf
+%exclude %{_sysconfdir}/modules-load.d/dattobd.conf
 %else
-%config %{_sysconfdir}/modules-load.d/elastio-snap.conf
+%config %{_sysconfdir}/modules-load.d/dattobd.conf
 %endif
 %if 0%{?rhel} && 0%{?rhel} < 7
-%config %{_sysconfdir}/sysconfig/modules/elastio-snap.modules
+%config %{_sysconfdir}/sysconfig/modules/dattobd.modules
 %endif
 %dir %{_kmod_src_root}
 %{_kmod_src_root}/Makefile
 %{_kmod_src_root}/configure-tests
-%{_kmod_src_root}/elastio-snap.c
-%{_kmod_src_root}/elastio-snap.h
+%{_kmod_src_root}/dattobd.c
+%{_kmod_src_root}/dattobd.h
 %{_kmod_src_root}/dkms.conf
 %{_kmod_src_root}/genconfig.sh
 %{_kmod_src_root}/includes.h
 %if 0%{?rhel} == 5 || (0%{?suse_version} && 0%{?suse_version} < 1315) || (0%{?fedora} && 0%{?fedora} < 23)
 %dir %{_sysconfdir}/kernel/postinst.d
-%{_sysconfdir}/kernel/postinst.d/50-elastio-snap
+%{_sysconfdir}/kernel/postinst.d/50-dattobd
 %endif
 %doc README.md
 %if "%{_vendor}" == "redhat"
@@ -620,7 +620,7 @@ rm -rf %{buildroot}
 - Tests and behaviour for redirected cow file
 - Added support of Amazon Linux 2023
 - Fix for the Linux Kernel v6.2 (Fedora 37/38)
-- Fix cow file size in /proc/elastio-snap-info
+- Fix cow file size in /proc/dattobd-info
 - Create cow file precisely according to the user setting
 
 * Wed Jan 4 2023 Stanislav Barantsev <sbarantsev@elastio.com> - 0.12.1
@@ -640,10 +640,10 @@ rm -rf %{buildroot}
 - Fixed issue with sync when CoW is full on Fedora 35
 
 * Tue Nov 29 2022 Konstantin Germanov <kgermanov@axcient.com>
-- Shared all API to elioctl CLI: added commands `info` and `get-free-minor`
+- Shared all API to dbdctl CLI: added commands `info` and `get-free-minor`
 - Fixed functionality of the redirected CoW file to another partition
 - Fixed rootfs mount on boot by typo fix in initramfs script
-- Adjusted appearance of errors in /proc/elastio-snap-info
+- Adjusted appearance of errors in /proc/dattobd-info
 
 * Mon Oct 24 2022 Eugene Kovalenko <ikovalenko@elastio.com>
 - Added support for CentOS Stream 9
@@ -853,7 +853,7 @@ rm -rf %{buildroot}
 
 * Fri Jul 17 2015 Neal Gompa <ngompa@datto.com> - 0.8.6-1
 - Updated to 0.8.6
-- Added bash completion script for elioctl
+- Added bash completion script for dbdctl
 
 * Sat Jun 13 2015 Neal Gompa <ngompa@datto.com> - 0.8.5-3
 - Add conditional to prevent module removal on upgrade

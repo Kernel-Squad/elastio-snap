@@ -20,7 +20,7 @@ class TestDestroy(DeviceTestCase):
         self.cow_file = "cow.snap"
         self.cow_full_path = "{}/{}".format(self.mount, self.cow_file)
         self.cow_reload_path = "/{}".format(self.cow_file)
-        self.snap_device = "/dev/elastio-snap{}".format(self.minor)
+        self.snap_device = "/dev/dattobd{}".format(self.minor)
 
         util.test_track(self._testMethodName, started=True)
 

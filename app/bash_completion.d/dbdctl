@@ -1,4 +1,4 @@
-_elioctl()
+_dbdctl()
 {
     local cur prev opts
     COMPREPLY=()
@@ -11,4 +11,4 @@ _elioctl()
         return 0
     fi
 }
-complete -o default -F _elioctl elioctl
+complete -o default -F _dbdctl dbdctl

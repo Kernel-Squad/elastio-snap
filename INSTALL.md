@@ -1,4 +1,4 @@
-# elastio-snap INSTALL
+# dattobd INSTALL
 
 ## From Repositories
 Elastio Software Inc. provides repositories for the RHEL/CentOS starting from the version 7, Amazon Linux 2, Fedora 31 and newer, Debian 8 and newer, and Ubuntu LTS starting from the version 16.04.  
@@ -48,17 +48,17 @@ sudo yum localinstall https://repo.assur.io/master/linux/rpm/Fedora/$(rpm -E %fe
 We are ready to install Elastio Snap packages after the repository package has been installed. If you did `yum update` and your system is running the newest kernel available for `yum`, here we go:
 
 ```bash
-sudo yum install dkms-elastio-snap elastio-snap-utils
+sudo yum install dkms-dattobd dattobd-utils
 ```
 
 ***NOTE!!!*** **This is exactly the case for *Amazon Linux 2 EC2 instance* and may apply to other RPM based systems!**  
-If your machine is running **NOT** the most recent Linux kernel availeble by yum. And you aren't going to do `yum update` and **reboot** machine to the fresh kernel before Elastio Snap installation. Or you are just not sure about freshness of the kernel. Please install `kernel-devel-$(uname -r)` package in addition to the `dkms-elastio-snap` package. If you are going to update packages and kernel some time later, then add both `kernel-devel-$(uname -r)` for the current kernel and `kernel-devel` for all newer kernels. Proceed with the installation of Elastio Snap using this command instead of the previous example:
+If your machine is running **NOT** the most recent Linux kernel availeble by yum. And you aren't going to do `yum update` and **reboot** machine to the fresh kernel before Elastio Snap installation. Or you are just not sure about freshness of the kernel. Please install `kernel-devel-$(uname -r)` package in addition to the `dkms-dattobd` package. If you are going to update packages and kernel some time later, then add both `kernel-devel-$(uname -r)` for the current kernel and `kernel-devel` for all newer kernels. Proceed with the installation of Elastio Snap using this command instead of the previous example:
 
 ```bash
-sudo yum install kernel-devel-$(uname -r) kernel-devel dkms-elastio-snap elastio-snap-utils
+sudo yum install kernel-devel-$(uname -r) kernel-devel dkms-dattobd dattobd-utils
 ```
 ...  
-<sup>For more details about this installation behavior please see issues [#12](https://github.com/elastio/elastio-snap/issues/12) and [#55](https://github.com/elastio/elastio-snap/issues/55) and comments there.</sup>
+<sup>For more details about this installation behavior please see issues [#12](https://github.com/elastio/dattobd/issues/12) and [#55](https://github.com/elastio/dattobd/issues/55) and comments there.</sup>
 
 ### Repository package installation for DEB-based systems
 
@@ -99,7 +99,7 @@ We are ready to install Elastio Snap packages after the repository package has b
 
 ```bash
 # Install Elastio Snap
-sudo apt-get install elastio-snap-dkms elastio-snap-utils
+sudo apt-get install dattobd-dkms dattobd-utils
 ```
 
 These packages will install and configure the kernel module to start during the boot process. No further configuration should be required when installing using this method.
@@ -139,17 +139,17 @@ sudo make install
 ### Configuring the Kernel Module
 To start the kernel module immediately, run:
 ```bash
-sudo modprobe elastio-snap
+sudo modprobe dattobd
 ```
 
 If you would like to have the module be loaded automatically during boot, consult the documentation for your distribution.
 
 ### Troubleshooting
-On some systems, it may be necessary to let the system know of the location of the shared libraries. If you are having trouble getting `elioctl` to run, run these two commands:
+On some systems, it may be necessary to let the system know of the location of the shared libraries. If you are having trouble getting `dbdctl` to run, run these two commands:
 ```
-echo /usr/local/{lib,lib64} | sed 's/ /\n/g' | sudo tee /etc/ld.so.conf.d/elastio-snap.conf
+echo /usr/local/{lib,lib64} | sed 's/ /\n/g' | sudo tee /etc/ld.so.conf.d/dattobd.conf
 sudo ldconfig
 ```
 
 ### Usage
-The kernel module is primarily controlled through `elioctl(8)`, which was installed previously. For usage instructions, see [elioctl.8.md](doc/elioctl.8.md).
+The kernel module is primarily controlled through `dbdctl(8)`, which was installed previously. For usage instructions, see [dbdctl.8.md](doc/dbdctl.8.md).

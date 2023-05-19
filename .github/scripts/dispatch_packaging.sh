@@ -5,5 +5,5 @@ where_from="from"
 set -x
 curl -XPOST -u "$REPO_HOOK_TOKEN" \
      -H "Accept: application/vnd.github.everest-preview+json" \
-     -H "Content-Type: application/json" https://api.github.com/repos/elastio/packaging/dispatches \
-     --data '{ "event_type": "elastio-snap #'$GITHUB_RUN_NUMBER': '$GITHUB_EVENT_NAME' '$where_from' '$SOURCE_BRANCH'", "client_payload": { "src_branch": "'$SOURCE_BRANCH'", "tgt_branch": "'$SOURCE_BRANCH'" } }'
+     -H "Content-Type: application/json" https://api.github.com/repos/datto/packaging/dispatches \
+     --data '{ "event_type": "dattobd #'$GITHUB_RUN_NUMBER': '$GITHUB_EVENT_NAME' '$where_from' '$SOURCE_BRANCH'", "client_payload": { "src_branch": "'$SOURCE_BRANCH'", "tgt_branch": "'$SOURCE_BRANCH'" } }'

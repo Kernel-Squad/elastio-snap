@@ -25,7 +25,7 @@ class DeviceTestCase(unittest.TestCase):
         cls.size_mb = 512
         cls.is_raid = False
 
-        cls.kmod = kmod.Module("../src/elastio-snap.ko")
+        cls.kmod = kmod.Module("../src/dattobd.ko")
         cls.kmod.load(debug=1)
         if os.getenv('TEST_DEVICES'):
             cls.devices = os.getenv('TEST_DEVICES').split()
@@ -56,7 +56,7 @@ class DeviceTestCase(unittest.TestCase):
 
         cls.fs = os.getenv('TEST_FS', 'ext4')
         util.mkfs(cls.device, cls.fs)
-        cls.mount = "/tmp/elastio-snap_{0:03d}".format(cls.minor)
+        cls.mount = "/tmp/dattobd_{0:03d}".format(cls.minor)
         os.makedirs(cls.mount, exist_ok=True)
         util.mount(cls.device, cls.mount)
 

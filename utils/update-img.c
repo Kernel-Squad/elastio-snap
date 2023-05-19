@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include <string.h>
 
-#include "libelastio-snap.h"
+#include "libdattobd.h"
 
 #define INDEX_BUFFER_SIZE 8192
 
@@ -66,16 +66,16 @@ static int verify_files(FILE *cow, unsigned minor){
 	if(!info){
 		ret = ENOMEM;
 		errno = 0;
-		fprintf(stderr, "error allocating memory for elastio-snap-info\n");
+		fprintf(stderr, "error allocating memory for dattobd-info\n");
 		goto error;
 	}
 
-	//read info from the elastio-snap driver
+	//read info from the dattobd driver
 	ret = elastio_snap_info(minor, info);
 	if(ret){
 		ret = errno;
 		errno = 0;
-		fprintf(stderr, "error reading elastio-snap-info from driver\n");
+		fprintf(stderr, "error reading dattobd-info from driver\n");
 		goto error;
 	}
 
@@ -167,11 +167,11 @@ int main(int argc, char **argv){
 	}
 
 	//get the minor number of the snapshot
-	ret = sscanf(snap_path, "/dev/elastio-snap%u", &minor);
+	ret = sscanf(snap_path, "/dev/dattobd%u", &minor);
 	if(ret != 1){
 		ret = errno;
 		errno = 0;
-		fprintf(stderr, "snapshot does not appear to be a elastio-snap snapshot device\n");
+		fprintf(stderr, "snapshot does not appear to be a dattobd snapshot device\n");
 		goto error;
 	}
 

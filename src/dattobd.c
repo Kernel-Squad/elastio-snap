@@ -7,7 +7,7 @@
 
 #include "includes.h"
 #include "kernel-config.h"
-#include "elastio-snap.h"
+#include "dattobd.h"
 
 //current lowest supported kernel = 3.10.0
 
@@ -20,11 +20,11 @@ MODULE_VERSION(ELASTIO_SNAP_VERSION);
 //printing macros
 #define LOG_DEBUG(fmt, args...) \
 	do{ \
-		if(elastio_snap_debug) printk(KERN_DEBUG "elastio-snap: " fmt "\n", ## args); \
+		if(elastio_snap_debug) printk(KERN_DEBUG "dattobd: " fmt "\n", ## args); \
 	}while(0)
 
-#define LOG_WARN(fmt, args...) printk(KERN_WARNING "elastio-snap: " fmt "\n", ## args)
-#define LOG_ERROR(error, fmt, args...) printk(KERN_ERR "elastio-snap: " fmt ": %d\n", ## args, error)
+#define LOG_WARN(fmt, args...) printk(KERN_WARNING "dattobd: " fmt "\n", ## args)
+#define LOG_ERROR(error, fmt, args...) printk(KERN_ERR "dattobd: " fmt ": %d\n", ## args, error)
 #define PRINT_BIO(text, bio) LOG_DEBUG(text ": sect = %llu size = %u", (unsigned long long)bio_sector(bio), bio_size(bio) / 512)
 
 /*********************************REDEFINED FUNCTIONS*******************************/
@@ -720,7 +720,7 @@ error:
  * The COW file should be switched to an immutable one while the driver works to prevent it
  * from moving or copying and thus guaranteeing the correct driver's behavior.
  * Another problem which may occur just while reading the CoW file is high and uncontrolled
- * memory consumption. See comments here https://github.com/elastio/elastio-snap/issues/39
+ * memory consumption. See comments here https://github.com/elastio/dattobd/issues/39
  */
 static inline void file_switch_lock(struct file *filp, bool lock, bool mark_dirty)
 {
@@ -831,10 +831,10 @@ static void bio_free_pages(struct bio *bio){
 #define bitmap_mark(bitmap, pos) (bitmap)[(pos) / 8] |= (1 << ((pos) % 8))
 
 //name macros
-#define INFO_PROC_FILE "elastio-snap-info"
-#define DRIVER_NAME "elastio-snap"
-#define CONTROL_DEVICE_NAME "elastio-snap-ctl"
-#define SNAP_DEVICE_NAME "elastio-snap%d"
+#define INFO_PROC_FILE "dattobd-info"
+#define DRIVER_NAME "dattobd"
+#define CONTROL_DEVICE_NAME "dattobd-ctl"
+#define SNAP_DEVICE_NAME "dattobd%d"
 #define SNAP_COW_THREAD_NAME_FMT "elastio_snap_cow%d"
 #define SNAP_MRF_THREAD_NAME_FMT "elastio_snap_mrf%d"
 #define INC_THREAD_NAME_FMT "elastio_snap_inc%d"
@@ -1117,7 +1117,7 @@ static const struct block_device_operations snap_ops = {
 	 * unexpectedly incremented in rare situations.
 	 *
 	 * The issue was described here:
-	 * https://github.com/elastio/elastio-snap/issues/169
+	 * https://github.com/elastio/dattobd/issues/169
 	 */
 
 	/* .owner = THIS_MODULE, */
@@ -3905,7 +3905,7 @@ error:
 	bio_free_clone(bio);
 }
 
-/** Resolves issue https://github.com/elastio/elastio-snap/issues/170 */
+/** Resolves issue https://github.com/elastio/dattobd/issues/170 */
 static inline void wait_for_bio_complete(struct snap_device *dev)
 {
 	struct bio_queue *bq = &dev->sd_cow_bios;
@@ -5586,7 +5586,7 @@ static int ioctl_elastio_snap_info(struct elastio_snap_info *info){
 	int ret;
 	struct snap_device *dev;
 
-	LOG_DEBUG("received elastio-snap info ioctl - %u", info->minor);
+	LOG_DEBUG("received dattobd info ioctl - %u", info->minor);
 
 	//verify that the minor number is valid
 	ret = verify_minor_in_use(info->minor);
@@ -5704,14 +5704,14 @@ static long ctrl_ioctl(struct file *filp, unsigned int cmd, unsigned long arg){
 		info = kmalloc(sizeof(struct elastio_snap_info), GFP_KERNEL);
 		if(!info){
 			ret = -ENOMEM;
-			LOG_ERROR(ret, "error allocating memory for elastio-snap-info");
+			LOG_ERROR(ret, "error allocating memory for dattobd-info");
 			break;
 		}
 
 		ret = copy_from_user(info, (struct elastio_snap_info __user *)arg, sizeof(struct elastio_snap_info));
 		if(ret){
 			ret = -EFAULT;
-			LOG_ERROR(ret, "error copying elastio-snap-info struct from user space");
+			LOG_ERROR(ret, "error copying dattobd-info struct from user space");
 			break;
 		}
 
@@ -5721,7 +5721,7 @@ static long ctrl_ioctl(struct file *filp, unsigned int cmd, unsigned long arg){
 		ret = copy_to_user((struct elastio_snap_info __user *)arg, info, sizeof(struct elastio_snap_info));
 		if(ret){
 			ret = -EFAULT;
-			LOG_ERROR(ret, "error copying elastio-snap-info struct to user space");
+			LOG_ERROR(ret, "error copying dattobd-info struct to user space");
 			break;
 		}
 

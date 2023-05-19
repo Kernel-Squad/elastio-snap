@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 
-BINARY_NAME = elioctl
+BINARY_NAME = dbdctl
 INSTALLDIR = $(PREFIX)/bin
-SOURCES = elioctl.c
+SOURCES = dbdctl.c
 
 .PHONY: shared static install-static install uninstall clean
 
 shared:
-	$(CC) $(CCFLAGS) -o $(BINARY_NAME) -L $(BASE_DIR)/lib $(SOURCES) -lelastio-snap
+	$(CC) $(CCFLAGS) -o $(BINARY_NAME) -L $(BASE_DIR)/lib $(SOURCES) -ldattobd
 
 static:
-	$(CC) $(CCFLAGS) -o $(BINARY_NAME) $(SOURCES) $(BASE_DIR)/lib/libelastio-snap.a
+	$(CC) $(CCFLAGS) -o $(BINARY_NAME) $(SOURCES) $(BASE_DIR)/lib/libdattobd.a
 
 install-static: static
 	mkdir -p $(INSTALLDIR)

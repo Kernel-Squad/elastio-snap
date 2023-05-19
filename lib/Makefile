@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-LIBNAME = libelastio-snap.so
+LIBNAME = libdattobd.so
 SOVER = 1
 SHARED_CCFLAGS = -fPIC -lc -shared -Wl,-soname,$(LIBNAME).$(SOVER)
 
-SOURCES = libelastio-snap.c
+SOURCES = libdattobd.c
 ifeq (,$(wildcard /etc/debian_version))
 	# rpm-based system
 	LIBDIR = $(PREFIX)/lib64
@@ -23,7 +23,7 @@ shared:
 
 static:
 	$(CC) $(CCFLAGS) -c $(SOURCES)
-	ar rcs libelastio-snap.a libelastio-snap.o
+	ar rcs libdattobd.a libdattobd.o
 
 install: shared
 	install $(LIBNAME).$(SOVER) $(LIBDIR)

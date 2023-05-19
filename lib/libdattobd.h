@@ -8,7 +8,7 @@
 #ifndef LIBELASTIO_SNAP_H_
 #define LIBELASTIO_SNAP_H_
 
-#include "elastio-snap.h"
+#include "dattobd.h"
 #include <stdbool.h>
 
 #ifdef __cplusplus

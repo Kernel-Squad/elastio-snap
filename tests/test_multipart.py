@@ -27,7 +27,7 @@ class TestMultipart(DeviceTestCaseMultipart):
         self.snap_mounts = []
         for i in range(self.part_count):
             self.cow_full_paths.append("{}/{}".format(self.mounts[i], self.cow_file))
-            self.snap_devices.append("/dev/elastio-snap{}".format(self.minors[i]))
+            self.snap_devices.append("/dev/dattobd{}".format(self.minors[i]))
             self.snap_mounts.append("/tmp/elio-snap-mnt{0:03d}".format(self.minors[i]))
             os.makedirs(self.snap_mounts[i], exist_ok=True)
             self.addCleanup(os.rmdir, self.snap_mounts[i])
@@ -110,7 +110,7 @@ class TestMultipart(DeviceTestCaseMultipart):
             util.dd("/dev/urandom", testfile, file_size_mb, bs="1M")
             os.sync()
 
-            # TODO: norecovery option, probably, should not be here after the fix of the elastio/elastio-snap#63
+            # TODO: norecovery option, probably, should not be here after the fix of the elastio/dattobd#63
             opts = "nouuid,norecovery,ro" if (self.fs == "xfs") else "ro"
             util.mount(self.snap_devices[i], self.snap_mounts[i], opts)
             self.addCleanup(util.unmount, self.snap_mounts[i])

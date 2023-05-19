@@ -59,14 +59,14 @@ pkgclean:
 
 pkgprep: pkgclean
 	$(PKGBUILDROOT_CREATE_CMD)
-	tar --exclude=./pkgbuild --exclude=.git --transform 's,^\.,elastio-snap,' -czf $(BUILDDIR)/SOURCES/elastio-snap.tar.gz .
-	cp dist/elastio-snap.spec $(BUILDDIR)/SPECS/elastio-snap.spec
+	tar --exclude=./pkgbuild --exclude=.git --transform 's,^\.,dattobd,' -czf $(BUILDDIR)/SOURCES/dattobd.tar.gz .
+	cp dist/dattobd.spec $(BUILDDIR)/SPECS/dattobd.spec
 
 deb: pkgprep
-	debbuild $(PKGBUILDFLAGS) $(BUILDDIR)/SPECS/elastio-snap.spec
+	debbuild $(PKGBUILDFLAGS) $(BUILDDIR)/SPECS/dattobd.spec
 
 rpm: pkgprep
-	rpmbuild $(PKGBUILDFLAGS) $(BUILDDIR)/SPECS/elastio-snap.spec
+	rpmbuild $(PKGBUILDFLAGS) $(BUILDDIR)/SPECS/dattobd.spec
 
 install:
 	$(MAKE) -C src install

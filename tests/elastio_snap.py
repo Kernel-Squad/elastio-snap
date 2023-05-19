@@ -56,7 +56,7 @@ class Flags:
     COW_ON_BDEV = 2
 
 
-lib = ffi.dlopen("../lib/libelastio-snap.so")
+lib = ffi.dlopen("../lib/libdattobd.so")
 
 # It could be "class State(IntFlag):", but "IntFlag" was introduced in class "enum" of the Python 3.6,
 # which isn't present on Debian 9 and CentOS 7.
@@ -192,5 +192,5 @@ def get_free_minor():
     return ret
 
 def version():
-    with open("/sys/module/elastio-snap/version", "r") as v:
+    with open("/sys/module/dattobd/version", "r") as v:
         return v.read().strip()

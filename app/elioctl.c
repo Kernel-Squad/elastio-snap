@@ -13,23 +13,23 @@
 #include <limits.h>
 #include <ctype.h>
 
-#include "libelastio-snap.h"
+#include "libdattobd.h"
 
 #define UNVERIFIED_STATE 4
 #define COW_ON_BDEV (1 << 1)
 
 static void print_help(int status){
 	printf("Usage:\n");
-	printf("\telioctl setup-snapshot [-c <cache size>] [-f fallocate] [-i (ignore snap errors)] <block device> <cow file> <minor>\n");
-	printf("\telioctl reload-snapshot [-c <cache size>] [-i (ignore snap errors)] <block device> <cow file> <minor>\n");
-	printf("\telioctl reload-incremental [-c <cache size>] [-i (ignore snap errors)] <block device> <cow file> <minor>\n");
-	printf("\telioctl destroy <minor>\n");
-	printf("\telioctl transition-to-incremental <minor>\n");
-	printf("\telioctl transition-to-snapshot [-f fallocate] <cow file> <minor>\n");
-	printf("\telioctl reconfigure [-c <cache size>] <minor>\n");
-	printf("\telioctl info <minor>\n");
-	printf("\telioctl get-free-minor\n");
-	printf("\telioctl help\n\n");
+	printf("\tdbdctl setup-snapshot [-c <cache size>] [-f fallocate] [-i (ignore snap errors)] <block device> <cow file> <minor>\n");
+	printf("\tdbdctl reload-snapshot [-c <cache size>] [-i (ignore snap errors)] <block device> <cow file> <minor>\n");
+	printf("\tdbdctl reload-incremental [-c <cache size>] [-i (ignore snap errors)] <block device> <cow file> <minor>\n");
+	printf("\tdbdctl destroy <minor>\n");
+	printf("\tdbdctl transition-to-incremental <minor>\n");
+	printf("\tdbdctl transition-to-snapshot [-f fallocate] <cow file> <minor>\n");
+	printf("\tdbdctl reconfigure [-c <cache size>] <minor>\n");
+	printf("\tdbdctl info <minor>\n");
+	printf("\tdbdctl get-free-minor\n");
+	printf("\tdbdctl help\n\n");
 	printf("<cow file> should be specified as an absolute path.\n");
 	printf("cache size should be provided in bytes, and fallocate should be provided in megabytes.\n");
 	printf("note:\n");
@@ -427,7 +427,7 @@ int main(int argc, char **argv){
 	//check argc
 	if(argc < 2) print_help(-1);
 
-	if(access("/dev/elastio-snap-ctl", F_OK) != 0){
+	if(access("/dev/dattobd-ctl", F_OK) != 0){
 		errno = EINVAL;
 		perror("driver does not appear to be loaded");
 		return -1;

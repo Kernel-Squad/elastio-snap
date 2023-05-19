@@ -28,7 +28,7 @@ def unmount(path, retry_on_dev_busy=True):
     else:
         # The retries on device busy error are necessary on Ubuntu 22.04, kernel 5.15
         # for the tests test_destroy_unverified_incremental and test_destroy_unverified_snapshot.
-        # See https://github.com/elastio/elastio-snap/issues/138
+        # See https://github.com/elastio/dattobd/issues/138
         retries = 3
         for retry in range(retries):
             p = subprocess.run(cmd, timeout=20, stdout=subprocess.PIPE, stderr=subprocess.PIPE)

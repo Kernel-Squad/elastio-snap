@@ -11,15 +11,15 @@ depends() {
 }
 
 installkernel() {
-    hostonly='' instmods elastio-snap
+    hostonly='' instmods dattobd
 }
 
 install() {
-    inst_hook pre-mount 01 "$moddir/elastio-snap.sh"
-    inst_dir /etc/elastio/dla/mnt
+    inst_hook pre-mount 01 "$moddir/dattobd.sh"
+    inst_dir /etc/datto/dla/mnt
     inst /sbin/blkid
     inst /sbin/blockdev
     inst /usr/bin/udevadm
-    inst /usr/bin/elioctl
-    inst_simple /var/lib/elastio/dla/reload /sbin/elastio_reload
+    inst /usr/bin/dbdctl
+    inst_simple /var/lib/datto/dla/reload /sbin/datto_reload
 }

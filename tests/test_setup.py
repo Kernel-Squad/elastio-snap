@@ -21,7 +21,7 @@ class TestSetup(DeviceTestCase):
     def setUp(self):
         self.cow_file = "cow.snap"
         self.cow_full_path = "{}/{}".format(self.mount, self.cow_file)
-        self.snap_device = "/dev/elastio-snap{}".format(self.minor)
+        self.snap_device = "/dev/dattobd{}".format(self.minor)
 
         util.test_track(self._testMethodName, started=True)
 
@@ -124,7 +124,7 @@ class TestSetup(DeviceTestCase):
         # Convert LVM logical volume name (if it is) to the kernel bdev name
         cmd = ["readlink", "-f", device]
         device = subprocess.check_output(cmd, timeout=10).rstrip().decode("utf-8")
-        snap_device = "/dev/elastio-snap{}".format(minor)
+        snap_device = "/dev/dattobd{}".format(minor)
         cow_file = "cow"
 
         self.assertEqual(elastio_snap.setup(minor, device, "/{}".format(cow_file)), 0)

@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-only
 
-obj-m := elastio-snap.o
+obj-m := dattobd.o
 
 KERNELVERSION ?= $(shell uname -r)
 KDIR := /lib/modules/$(KERNELVERSION)/build
@@ -22,4 +22,4 @@ install: default
 	$(MAKE) -C $(KDIR) M=$(PWD) modules_install
 
 uninstall:
-	$(RM) /lib/modules/$(KERNELVERSION)/$(INSTALL_MOD_DIR)/elastio-snap.ko
+	$(RM) /lib/modules/$(KERNELVERSION)/$(INSTALL_MOD_DIR)/dattobd.ko

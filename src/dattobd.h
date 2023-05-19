@@ -17,7 +17,7 @@
 #include <linux/limits.h>
 
 #define ELASTIO_SNAP_VERSION "0.12.2"
-#define ELASTIO_IOCTL_MAGIC 'A' // 0x41
+#define ELASTIO_IOCTL_MAGIC 0x91
 
 struct setup_params{
 	char *bdev; //name of block device to snapshot

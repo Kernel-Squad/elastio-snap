@@ -1,7 +1,7 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: elastio-snap
+Upstream-Name: dattobd
 Upstream-Contact: Eugene Kovalenko <ikovalenko@elastio.com>
-Source: https://github.com/elastio/elastio-snap
+Source: https://github.com/elastio/dattobd
 
 Files: *
 Copyright:
@@ -54,7 +54,7 @@ License: LGPL-2.1+
  Public License version 2.1 can be found in the file
  `/usr/share/common-licenses/LGPL-2.1'.
 
-Files: src/elastio-snap.h
+Files: src/dattobd.h
 Copyright:
  Copyright 2015 Datto, Inc.
  Additional contributions by Elastio Software, Inc are Copyright (C) 2020 Elastio Software Inc.
