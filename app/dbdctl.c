@@ -356,7 +356,7 @@ static int handle_info(int argc, char **argv){
 	ret = parse_ui(argv[1], &minor);
 	if(ret) goto error;
 
-	ret = elastio_snap_info(minor, &info);
+	ret = dattobd_info(minor, &info);
 	if(ret == 0) {
 		printf("{\n");
 		printf("\t\"minor\": %u,\n", info.minor);

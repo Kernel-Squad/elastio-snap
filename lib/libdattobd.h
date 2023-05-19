@@ -29,7 +29,7 @@ int dattobd_transition_snapshot(unsigned int minor, char *cow, unsigned long fal
 
 int dattobd_reconfigure(unsigned int minor, unsigned long cache_size);
 
-int elastio_snap_info(unsigned int minor, struct elastio_snap_info *info);
+int dattobd_info(unsigned int minor, struct elastio_snap_info *info);
 
 /**
  * Get the first available minor.

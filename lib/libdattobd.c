@@ -127,7 +127,7 @@ int dattobd_reconfigure(unsigned int minor, unsigned long cache_size){
 	return ret;
 }
 
-int elastio_snap_info(unsigned int minor, struct elastio_snap_info *info){
+int dattobd_info(unsigned int minor, struct elastio_snap_info *info){
 	int fd, ret;
 
 	if(!info){

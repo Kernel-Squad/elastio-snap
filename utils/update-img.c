@@ -71,7 +71,7 @@ static int verify_files(FILE *cow, unsigned minor){
 	}
 
 	//read info from the dattobd driver
-	ret = elastio_snap_info(minor, info);
+	ret = dattobd_info(minor, info);
 	if(ret){
 		ret = errno;
 		errno = 0;
